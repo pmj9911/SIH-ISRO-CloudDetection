@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'input_image_screen.dart';
 import 'overlay_details_widget.dart';
 
-class CloudScreen extends StatefulWidget {
+class CloudDetectionScreen extends StatefulWidget {
   final double heightImg = 300;
   // CloudScreen(this.heightImg);
   @override
-  _CloudScreenState createState() => _CloudScreenState();
+  _CloudDetectionScreenState createState() => _CloudDetectionScreenState();
 }
 
-class _CloudScreenState extends State<CloudScreen> {
+class _CloudDetectionScreenState extends State<CloudDetectionScreen> {
   bool buttonPressed = false;
   Widget resultContainer = Container(
     child: Text("results"),
@@ -28,34 +28,77 @@ class _CloudScreenState extends State<CloudScreen> {
   );
   @override
   Widget build(BuildContext context) {
-    return Column(
+    Widget inputBox = Stack(
       children: <Widget>[
-        Stack(
-          children: <Widget>[
-            InputImageScreen(
-                "assets/images/cloud1.jpg", !buttonPressed ? 300 : 150),
-            OverlayDetails("overlay details", 0, 0),
-          ],
-        ),
-        IconButton(
-          onPressed: () {
-            setState(() {
-              buttonPressed = true;
-            });
-            print("button pressed");
-          },
-          icon: Icon(
-            Icons.cast,
-          ),
-        ),
-        !buttonPressed ? SizedBox() : resultContainer,
-        Stack(
-          children: <Widget>[
-            InputImageScreen("assets/images/cloud1.jpg", 300),
-            OverlayDetails("overlay details ", 125, 184),
-          ],
-        ),
+        InputImageScreen("assets/images/cloud1.jpg", widget.heightImg),
+        OverlayDetails("overlay details", 0, 0),
       ],
+    );
+    Widget outputBox = Stack(
+      children: <Widget>[
+        InputImageScreen("assets/images/cloud1.jpg", widget.heightImg),
+        OverlayDetails("overlay details ", 125, 184),
+      ],
+    );
+    Widget castButton = IconButton(
+      onPressed: () {
+        setState(() {
+          buttonPressed = true;
+        });
+        print("button pressed");
+      },
+      icon: Icon(
+        Icons.cast,
+      ),
+    );
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            buttonPressed ? SizedBox() : inputBox,
+            buttonPressed ? SizedBox() : castButton,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: buttonPressed
+                  ? Center(
+                      child: Text(
+                        "Output Image",
+                        style: TextStyle(
+                          fontSize: 24,
+                        ),
+                      ),
+                    )
+                  : SizedBox(),
+            ),
+            buttonPressed ? outputBox : SizedBox(),
+            buttonPressed ? resultContainer : SizedBox(),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: buttonPressed
+                  ? Center(
+                      child: Text(
+                        "Input Image",
+                        style: TextStyle(
+                          fontSize: 24,
+                        ),
+                      ),
+                    )
+                  : SizedBox(),
+            ),
+            buttonPressed ? inputBox : SizedBox(),
+          ],
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: FloatingActionButton(
+        elevation: 10,
+        child: Icon(Icons.refresh),
+        onPressed: () {
+          setState(() {
+            buttonPressed = false;
+          });
+        },
+      ),
     );
   }
 }

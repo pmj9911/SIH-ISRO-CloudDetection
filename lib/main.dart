@@ -1,6 +1,8 @@
 import 'package:clouddetector/cloud_screen.dart';
 import 'package:flutter/material.dart';
 
+import 'cloud_details_screen.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -26,16 +28,56 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  List<Map<String, Object>> _pages;
+  bool refreshed = false;
+
+  @override
+  void initState() {
+    _pages = [
+      {
+        'page': CloudDetectionScreen(),
+        'title': 'Cloud Detection',
+      },
+      {
+        'page': CloudDetails(),
+        'title': 'Cloud Details',
+      },
+    ];
+    super.initState();
+  }
+
+  int _selectedPageIndex = 0;
+  void _selectPage(int index) {
+    setState(() {
+      _selectedPageIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Center(
-          child: Text(widget.title),
+          child: Text(_pages[_selectedPageIndex]['title']),
         ),
       ),
-      body: Center(
-        child: CloudScreen(),
+      body: _pages[_selectedPageIndex]['page'],
+      bottomNavigationBar: BottomNavigationBar(
+        onTap: _selectPage,
+        backgroundColor: Theme.of(context).primaryColor,
+        unselectedItemColor: Colors.white,
+        selectedItemColor: Colors.yellow,
+        currentIndex: _selectedPageIndex,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.info),
+            title: Text("Detection"),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.details),
+            title: Text("Details"),
+          ),
+        ],
       ),
     );
   }

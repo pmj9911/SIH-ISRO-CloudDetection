@@ -23,8 +23,8 @@ class _InputImageScreenState extends State<InputImageScreen> {
       // padding: const EdgeInsets.all(3.0),
       decoration: BoxDecoration(
         border: Border.all(
-          color: Colors.red,
-          width: 3.5,
+          color: Colors.white54,
+          width: 1,
         ),
       ),
     );
