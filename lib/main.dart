@@ -1,6 +1,5 @@
-import 'package:clouddetector/cloud_screen.dart';
+import 'cloud_prediction_screen.dart';
 import 'package:flutter/material.dart';
-
 import 'cloud_details_screen.dart';
 
 void main() => runApp(MyApp());
@@ -30,12 +29,11 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   List<Map<String, Object>> _pages;
   bool refreshed = false;
-
   @override
   void initState() {
     _pages = [
       {
-        'page': CloudDetectionScreen(),
+        'page': CloudPredictionScreen(),
         'title': 'Cloud Detection',
       },
       {

@@ -1,62 +1,68 @@
 import 'package:flutter/material.dart';
-
 import 'input_image_screen.dart';
 import 'overlay_details_widget.dart';
+import 'cloud_prediction_widget.dart';
 
-class CloudDetectionScreen extends StatefulWidget {
+class CloudPredictionScreen extends StatefulWidget {
   final double heightImg = 300;
   // CloudScreen(this.heightImg);
   @override
-  _CloudDetectionScreenState createState() => _CloudDetectionScreenState();
+  _CloudPredictionScreenState createState() => _CloudPredictionScreenState();
 }
 
-class _CloudDetectionScreenState extends State<CloudDetectionScreen> {
+class _CloudPredictionScreenState extends State<CloudPredictionScreen> {
   bool buttonPressed = false;
-  Widget resultContainer = Container(
-    child: Text("results"),
-    // mainAxisAlignment: MainAxisAlignment.center,
-    width: double.infinity,
-    height: 150,
-    // margin: const EdgeInsets.all(15.0),
-    // padding: const EdgeInsets.all(3.0),
-    decoration: BoxDecoration(
-      border: Border.all(
-        color: Colors.red,
-        width: 3.5,
-      ),
-    ),
-  );
+
   @override
   Widget build(BuildContext context) {
-    Widget inputBox = Stack(
-      children: <Widget>[
-        InputImageScreen("assets/images/cloud1.jpg", widget.heightImg),
-        OverlayDetails("overlay details", 0, 0),
-      ],
-    );
-    Widget outputBox = Stack(
-      children: <Widget>[
-        InputImageScreen("assets/images/cloud1.jpg", widget.heightImg),
-        OverlayDetails("overlay details ", 125, 184),
-      ],
-    );
-    Widget castButton = IconButton(
-      onPressed: () {
-        setState(() {
-          buttonPressed = true;
-        });
-        print("button pressed");
-      },
-      icon: Icon(
-        Icons.cast,
+    Widget inputImage = InputImageScreen("InputImage1.jpeg", widget.heightImg);
+    Widget outputImage =
+        InputImageScreen("OutputImage1.jpeg", widget.heightImg);
+    Widget castButton = Container(
+      height: 330,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.green,
+          width: 2.5,
+        ),
+      ),
+      // padding: EdgeInsets.only(top: 75),
+      child: FlatButton.icon(
+        label: Text("NowCast"),
+        onPressed: () {
+          setState(() {
+            buttonPressed = true;
+          });
+          print("button pressed");
+        },
+        icon: Icon(
+          Icons.fast_forward,
+          size: 40,
+        ),
       ),
     );
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            buttonPressed ? SizedBox() : inputBox,
+            buttonPressed ? SizedBox() : inputImage,
             buttonPressed ? SizedBox() : castButton,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: buttonPressed
+                  ? Center(
+                      child: Text(
+                        "Predictions",
+                        style: TextStyle(
+                          fontSize: 24,
+                        ),
+                      ),
+                    )
+                  : SizedBox(),
+            ),
+            buttonPressed ? CloudPrediction() : SizedBox(),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: buttonPressed
@@ -70,8 +76,7 @@ class _CloudDetectionScreenState extends State<CloudDetectionScreen> {
                     )
                   : SizedBox(),
             ),
-            buttonPressed ? outputBox : SizedBox(),
-            buttonPressed ? resultContainer : SizedBox(),
+            buttonPressed ? outputImage : SizedBox(),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: buttonPressed
@@ -85,7 +90,7 @@ class _CloudDetectionScreenState extends State<CloudDetectionScreen> {
                     )
                   : SizedBox(),
             ),
-            buttonPressed ? inputBox : SizedBox(),
+            buttonPressed ? inputImage : SizedBox(),
           ],
         ),
       ),

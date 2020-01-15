@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 class OverlayDetails extends StatefulWidget {
   final double overlayWidth = 175;
   final double overlayHeight = 175;
-  final double overlayRightDistance;
+  final double overlayLeftDistance;
   final double overlayBottomDistance;
   final String toBeDisplayed;
 
-  OverlayDetails(this.toBeDisplayed, this.overlayBottomDistance,
-      this.overlayRightDistance);
+  OverlayDetails(
+      this.toBeDisplayed, this.overlayBottomDistance, this.overlayLeftDistance);
   @override
   _OverlayDetailsState createState() => _OverlayDetailsState();
 }
@@ -16,9 +16,11 @@ class OverlayDetails extends StatefulWidget {
 class _OverlayDetailsState extends State<OverlayDetails> {
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      bottom: widget.overlayBottomDistance,
-      right: widget.overlayRightDistance,
+    return //Row(
+        // children: <Widget>[
+        Positioned(
+      top: widget.overlayBottomDistance,
+      left: widget.overlayLeftDistance,
       child: Container(
         child: Row(
           children: <Widget>[
@@ -42,6 +44,20 @@ class _OverlayDetailsState extends State<OverlayDetails> {
           ),
         ),
       ),
+      // ),
+      //   Positioned(
+      //     top: widget.overlayBottomDistance,
+      //     left: widget.overlayLeftDistance,
+      //     child: Container(
+      //       width: 10.0,
+      //       height: 10.0,
+      //       decoration: new BoxDecoration(
+      //         color: Colors.orange,
+      //         shape: BoxShape.circle,
+      //       ),
+      //     ),
+      //   ),
+      // ],
     );
   }
 }
