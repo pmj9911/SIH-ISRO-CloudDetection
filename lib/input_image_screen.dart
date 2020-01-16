@@ -15,8 +15,8 @@ class _InputImageScreenState extends State<InputImageScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Image.network(
-        'https://88e84f7d.ngrok.io/media/images/' + widget.pathToImage,
+      child: new Image.network(
+        'https://fb4950f7.ngrok.io/media/images/' + widget.pathToImage,
         fit: BoxFit.fill,
       ),
       // Image.asset(

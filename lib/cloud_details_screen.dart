@@ -6,6 +6,39 @@ import 'package:http/http.dart' as http;
 import 'cloud_details_widget.dart';
 import 'input_image_screen.dart';
 
+class PointDetails {
+  final String posx;
+  final String posy;
+  final String tir1Count;
+  final bool cloudy;
+  final String type;
+  final String topTemp;
+  final String height;
+
+  PointDetails({
+    this.posx,
+    this.posy,
+    this.tir1Count,
+    this.cloudy,
+    this.type,
+    this.topTemp,
+    this.height,
+  });
+
+  factory PointDetails.fromJson(Map<String, dynamic> json) {
+    return PointDetails(
+      posx: json['posx'],
+      posy: json['posy'],
+      tir1Count: json['tir1Count'],
+      cloudy: json['cloudy'],
+      type: json['type'],
+      topTemp: json['topTemp'],
+      height: json['height'],
+    );
+  }
+}
+
+//###################################33
 class PointCoordiantes {
   final int posx;
   final int posy;
@@ -15,22 +48,17 @@ class PointCoordiantes {
         "posx": posx.toString(),
         "posy": posy.toString(),
       };
-  // Map<String, dynamic> fromJson() => {
-  //       posx: json['posx'].to,
-  //       posy: json['posy'],
-  //     };
 }
 
 String postToJson(PointCoordiantes pointCoordiantes) {
   final cord = pointCoordiantes.toJson();
-  // print(cord);
   return json.encode(cord);
 }
 
 Future<http.Response> sendCords(PointCoordiantes pointCoordiantes) async {
   print('@@@@@@@@@@ ${postToJson(pointCoordiantes)}');
   final response = await http.post(
-    'http://88e84f7d.ngrok.io/detailsCloud',
+    'http://fb4950f7.ngrok.io/detailsCloud',
     headers: {
       HttpHeaders.contentTypeHeader: 'application/json',
     },
@@ -46,23 +74,38 @@ class CloudDetails extends StatefulWidget {
 }
 
 class _CloudDetailsState extends State<CloudDetails> {
-  double posx = 0.0;
-  double posy = 0.0;
+  int posx = 0;
+  int posy = 0;
   bool overlayActive = false;
+  bool spinner = false;
+  PointDetails postDets;
   void onTapDown(BuildContext context, TapDownDetails details) {
+    // setState(() {
+    //   spinner = true;
+    // });
     print('${details.globalPosition}##################');
     final RenderBox box = context.findRenderObject();
     final Offset localOffset = box.globalToLocal(details.globalPosition);
-    posx = localOffset.dx;
-    posy = localOffset.dy;
+    posx = localOffset.dx.toInt();
+    posy = localOffset.dy.toInt();
     print("$posx  $posy");
 
-    PointCoordiantes pointCords =
-        new PointCoordiantes(posx.toInt(), posy.toInt());
+    PointCoordiantes pointCords = new PointCoordiantes(posx, posy);
+
     print("sending post request");
     sendCords(pointCords).then((response) {
+      print("processing the response from the post request");
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        print(json.decode(response.body));
+        postDets = PointDetails.fromJson(json.decode(response.body));
+      } else {
+        print(json.decode(response.body));
+        throw Exception('Failed to load post');
+      }
       setState(() {
         overlayActive = true;
+        // spinner = false;
       });
     });
   }
@@ -77,7 +120,7 @@ class _CloudDetailsState extends State<CloudDetails> {
               GestureDetector(
                 onTapDown: (TapDownDetails details) =>
                     onTapDown(context, details),
-                child: new InputImageScreen("cloud1.jpg", 300),
+                child: InputImageScreen("cloud1.jpg", 300),
               ),
             ],
           ),
@@ -85,7 +128,7 @@ class _CloudDetailsState extends State<CloudDetails> {
             height: 330,
             // width: double.infinity,
             child: overlayActive
-                ? PointCloudDetails()
+                ? PointCloudDetails(postDets)
                 : Center(
                     child: Text("No point selected !"),
                   ),

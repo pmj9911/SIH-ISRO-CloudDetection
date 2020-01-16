@@ -15,8 +15,6 @@ class _CloudPredictionScreenState extends State<CloudPredictionScreen> {
   @override
   Widget build(BuildContext context) {
     Widget inputImage = InputImageScreen("InputImage1.jpeg", widget.heightImg);
-    Widget outputImage =
-        InputImageScreen("OutputImage1.jpeg", widget.heightImg);
     Widget castButton = Container(
       height: 330,
       width: double.infinity,
@@ -62,20 +60,7 @@ class _CloudPredictionScreenState extends State<CloudPredictionScreen> {
                   : SizedBox(),
             ),
             buttonPressed ? CloudPrediction() : SizedBox(),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: buttonPressed
-                  ? Center(
-                      child: Text(
-                        "Output Image",
-                        style: TextStyle(
-                          fontSize: 24,
-                        ),
-                      ),
-                    )
-                  : SizedBox(),
-            ),
-            buttonPressed ? outputImage : SizedBox(),
+            // buttonPressed ? outputImage : SizedBox(),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: buttonPressed

@@ -3,28 +3,27 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
+import 'input_image_screen.dart';
+
 class CloudPredict {
   final String timeSlot;
   final String direction;
   final String speed;
-
-  CloudPredict({
-    this.timeSlot,
-    this.direction,
-    this.speed,
-  });
+  final String fileName;
+  CloudPredict({this.timeSlot, this.direction, this.speed, this.fileName});
 
   factory CloudPredict.fromJson(Map<String, dynamic> json) {
     return CloudPredict(
       timeSlot: json['time_slot'],
       direction: json['direction'],
       speed: json['speed'],
+      fileName: json['fileName'],
     );
   }
 }
 
 Future<CloudPredict> getCloudPredict() async {
-  String url = 'https://88e84f7d.ngrok.io/predictCloud';
+  String url = 'https://fb4950f7.ngrok.io/predictCloud';
   final response = await http.get(url, headers: {"Accept": "application/json"});
 
   if (response.statusCode == 200) {
@@ -89,11 +88,23 @@ class CloudPredictionState extends State<CloudPrediction> {
                     Text(snapshot.data.speed),
                   ],
                 ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(
+                    child: Text(
+                      "Output Image",
+                      style: TextStyle(
+                        fontSize: 24,
+                      ),
+                    ),
+                  ),
+                ),
+                InputImageScreen(snapshot.data.fileName, 300),
               ],
             ),
             // mainAxisAlignment: MainAxisAlignment.center,
             width: double.infinity,
-            height: 150,
+            height: 460,
             // margin: const EdgeInsets.all(15.0),
             // padding: const EdgeInsets.all(3.0),
             decoration: BoxDecoration(
