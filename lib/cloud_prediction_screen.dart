@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'input_image_screen.dart';
-import 'overlay_details_widget.dart';
 import 'cloud_prediction_widget.dart';
 
 class CloudPredictionScreen extends StatefulWidget {

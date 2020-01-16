@@ -24,7 +24,7 @@ class CloudPredict {
 }
 
 Future<CloudPredict> getCloudPredict() async {
-  String url = 'https://f45f6453.ngrok.io/predictCloud';
+  String url = 'https://88e84f7d.ngrok.io/predictCloud';
   final response = await http.get(url, headers: {"Accept": "application/json"});
 
   if (response.statusCode == 200) {

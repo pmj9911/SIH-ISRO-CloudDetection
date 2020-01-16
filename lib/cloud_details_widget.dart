@@ -1,8 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:math';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+
+// String postFromJson(PointCoordiantes pointCoordiantes) {
+//   final cord = pointCoordiantes.fromJson();
+//   return json.encode(cord);
+// }
 
 class PointDetails {
   final int posx;
@@ -37,7 +41,7 @@ class PointDetails {
 }
 
 Future<PointDetails> getPointDetails() async {
-  String url = 'https://f45f6453.ngrok.io/detailsCloud';
+  String url = 'https://22e9239e.ngrok.io/detailsCloud';
   final response = await http.get(url, headers: {"Accept": "application/json"});
 
   if (response.statusCode == 200) {
@@ -49,9 +53,6 @@ Future<PointDetails> getPointDetails() async {
 }
 
 class PointCloudDetails extends StatefulWidget {
-  final double posx;
-  final double posy;
-  PointCloudDetails(this.posx, this.posy);
   @override
   _PointCloudDetailsState createState() => _PointCloudDetailsState();
 }
@@ -77,9 +78,6 @@ class _PointCloudDetailsState extends State<PointCloudDetails> {
 
   @override
   Widget build(BuildContext context) {
-    int posx = widget.posx.toInt();
-    int posy = widget.posy.toInt();
-    print("$posx  $posy");
     return FutureBuilder<PointDetails>(
       future:
           getPointDetails(), //sets the getPointDetails method as the expected Future

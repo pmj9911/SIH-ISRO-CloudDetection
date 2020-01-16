@@ -1,7 +1,44 @@
 import 'package:flutter/material.dart';
-
+import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
+import 'package:http/http.dart' as http;
 import 'cloud_details_widget.dart';
 import 'input_image_screen.dart';
+
+class PointCoordiantes {
+  final int posx;
+  final int posy;
+  PointCoordiantes(this.posx, this.posy);
+
+  Map<String, String> toJson() => {
+        "posx": posx.toString(),
+        "posy": posy.toString(),
+      };
+  // Map<String, dynamic> fromJson() => {
+  //       posx: json['posx'].to,
+  //       posy: json['posy'],
+  //     };
+}
+
+String postToJson(PointCoordiantes pointCoordiantes) {
+  final cord = pointCoordiantes.toJson();
+  // print(cord);
+  return json.encode(cord);
+}
+
+Future<http.Response> sendCords(PointCoordiantes pointCoordiantes) async {
+  print('@@@@@@@@@@ ${postToJson(pointCoordiantes)}');
+  final response = await http.post(
+    'http://88e84f7d.ngrok.io/detailsCloud',
+    headers: {
+      HttpHeaders.contentTypeHeader: 'application/json',
+    },
+    body: postToJson(pointCoordiantes),
+  );
+  print('####### ${response.body.toString()}');
+  return response;
+}
 
 class CloudDetails extends StatefulWidget {
   @override
@@ -16,11 +53,17 @@ class _CloudDetailsState extends State<CloudDetails> {
     print('${details.globalPosition}##################');
     final RenderBox box = context.findRenderObject();
     final Offset localOffset = box.globalToLocal(details.globalPosition);
-    setState(() {
-      posx = localOffset.dx;
-      posy = localOffset.dy;
-      print("$posx  $posy");
-      overlayActive = true;
+    posx = localOffset.dx;
+    posy = localOffset.dy;
+    print("$posx  $posy");
+
+    PointCoordiantes pointCords =
+        new PointCoordiantes(posx.toInt(), posy.toInt());
+    print("sending post request");
+    sendCords(pointCords).then((response) {
+      setState(() {
+        overlayActive = true;
+      });
     });
   }
 
@@ -34,7 +77,7 @@ class _CloudDetailsState extends State<CloudDetails> {
               GestureDetector(
                 onTapDown: (TapDownDetails details) =>
                     onTapDown(context, details),
-                child: InputImageScreen("cloud1.jpg", 300),
+                child: new InputImageScreen("cloud1.jpg", 300),
               ),
             ],
           ),
@@ -42,7 +85,7 @@ class _CloudDetailsState extends State<CloudDetails> {
             height: 330,
             // width: double.infinity,
             child: overlayActive
-                ? PointCloudDetails(posx, posy)
+                ? PointCloudDetails()
                 : Center(
                     child: Text("No point selected !"),
                   ),
