@@ -1,13 +1,13 @@
 from django.http import HttpResponse
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.parsers import MultiPartParser
+from rest_framework.parsers import MultiPartParser,JSONParser
 from django.core.serializers.json import DjangoJSONEncoder
 import json
 import traceback
 
 class CloudDetails(APIView):
-    parser_classes = (MultiPartParser,)
+    parser_classes = (JSONParser,)
     '''
     Point (int,int)
     TIR1 count double
@@ -33,7 +33,27 @@ class CloudDetails(APIView):
                 print(e)
                 return HttpResponse(status=403)
     def post(self,request):
-        return HttpResponse(status=403)
+        # try:
+        print(eval(request.body.decode('ASCII')))
+        l = eval(request.body.decode('ASCII'))
+        print(type(l))
+        # body = request.body.split(',')
+        # print(body)
+        # body_unicode = request.body.decode('utf-8')
+        # body_data = json.loads(body_unicode)
+        # print(body_data)
+        posx = l['posx']
+        posy = l['posy']
+        print(posx,"\t",posy,"################")
+        jsonresp = {
+            'status' : 'Success',
+        }
+        return Response(jsonresp, content_type='application/json',status=200)
+        # except Exception as e:
+        #     traceback.print_exc()
+        #     print(e)
+        #     return HttpResponse(status=403)
+
 class CloudPredictionDetails(APIView):
     parser_classes = (MultiPartParser,)
     '''
