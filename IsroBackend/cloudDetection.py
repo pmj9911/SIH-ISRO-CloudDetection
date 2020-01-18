@@ -36,7 +36,37 @@ def feature_entropy(values):
 def feature_busyness(values):
     return (abs(values[0]-values[1])+abs(values[1]-values[2])+abs(values[2]-values[5])+abs(values[5]-values[8])+
     abs(values[8]-values[7])+abs(values[7]-values[6])+abs(values[6]-values[3])+abs(values[3]-values[0])+
-    abs(values[1]-values[4])+abs(values[3]-values[4])+abs(values[5]-values[4])+abs(values[7]-values[4]))/12.0
+    abs(values[1]-values[4])+abs(values[3]-values[4])+abs(values[5]-values[4])+abs(values
+        [7]-values[4]))/12.0
+
+def fill(data, start_coords, fill_value):
+    global cloud_pixel_list, label_number
+    xsize, ysize = data.shape
+    orig_value = data[start_coords[0], start_coords[1]]
+    stack = set(((start_coords[0], start_coords[1]),))
+    if fill_value == orig_value:
+        raise ValueError("Filling region with same value "
+                     "already present is unsupported. "
+                     "Did you already fill this region?")
+
+    while stack:
+        x, y = stack.pop()
+
+        if data[x, y] == orig_value:
+            data[x, y] = fill_value
+            if [x, y] in cloud_pixel_list:
+                cloud_pixel_list.remove([x, y])
+            if [x, y] not in cloud_labels[label_number]:
+                cloud_labels[label_number].append([x,y])
+            if x > 0:
+                stack.add((x - 1, y))
+            if x < (xsize - 1):
+                stack.add((x + 1, y))
+            if y > 0:
+                stack.add((x, y - 1))
+            if y < (ysize - 1):
+                stack.add((x, y + 1))
+
 
 # %%
 def check(values):
@@ -46,7 +76,7 @@ def check(values):
     return 1.0
 
 
-def detection( tif_name, imageStore):
+def detection( tif_name, imageStore, coloredImageStore):
     image_file = tif_name
     sat_data = rasterio.open(image_file)
 
@@ -206,7 +236,7 @@ def detection( tif_name, imageStore):
     print(len(y[:-3]))
     og=y
     plt.imshow(y)
-    plt.show()
+    # plt.show()
 
     # %%
     avg_dict={}
@@ -260,3 +290,24 @@ def detection( tif_name, imageStore):
     plt.imshow(edge_result, cmap='gray', alpha=0.4)
     plt.savefig(imageStore)
     # %%
+    cloud_pixel_list=[]
+    label_number = []
+    for row in range(0, 984):
+        for col in range(0, 1074):
+            if y[row][col] == 4.0:
+                cloud_pixel_list.append([row, col])
+                label_number.append(1)
+    print(cloud_pixel_list)
+
+
+    temp=y
+    cloud_labels = {}
+    print([800, 600] in cloud_pixel_list)
+    label_number=6
+    print(type(cloud_pixel_list))
+    while len(cloud_pixel_list) > 0:
+        cloud_labels[label_number] = []
+        fill(temp, cloud_pixel_list[0], label_number)
+        label_number+=1
+    plt.imshow(temp, cmap='jet')
+    plt.savefig(coloredImageStore)
