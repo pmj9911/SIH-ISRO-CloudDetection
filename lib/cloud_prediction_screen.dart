@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'input_image_screen.dart';
+import 'package:intl/intl.dart';
+import 'getter_input_image.dart';
 import 'cloud_prediction_widget.dart';
 
 class CloudPredictionScreen extends StatefulWidget {
@@ -11,12 +14,37 @@ class CloudPredictionScreen extends StatefulWidget {
 
 class _CloudPredictionScreenState extends State<CloudPredictionScreen> {
   bool buttonPressed = false;
+  bool refereshImage = true;
+  Timer _timer;
+  // _CloudPredictionScreenState() {
+  //   _timer = new Timer(const Duration(milliseconds: 1000), () {
+  //     setState(() {
+  //       buttonPressed = false;
+  //     });
+  //   });
+  // }
+  void addValue() {
+    setState(() {
+      buttonPressed = false;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _timer = Timer.periodic(Duration(seconds: 180  ), (Timer t) => addValue());
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _timer.cancel();
+  }
 
   @override
   Widget build(BuildContext context) {
-    Widget inputImage = InputImageScreen("InputImage1.jpeg", widget.heightImg);
     Widget castButton = Container(
-      height: 330,
+      height: 270,
       width: double.infinity,
       decoration: BoxDecoration(
         border: Border.all(
@@ -39,13 +67,13 @@ class _CloudPredictionScreenState extends State<CloudPredictionScreen> {
         ),
       ),
     );
-
+    DateTime now = DateTime.now();
+    String formattedDate = DateFormat('kk:mm:ss').format(now);
+    print(formattedDate);
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            buttonPressed ? SizedBox() : inputImage,
-            buttonPressed ? SizedBox() : castButton,
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: buttonPressed
@@ -60,21 +88,8 @@ class _CloudPredictionScreenState extends State<CloudPredictionScreen> {
                   : SizedBox(),
             ),
             buttonPressed ? CloudPrediction() : SizedBox(),
-            // buttonPressed ? outputImage : SizedBox(),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: buttonPressed
-                  ? Center(
-                      child: Text(
-                        "Input Image",
-                        style: TextStyle(
-                          fontSize: 24,
-                        ),
-                      ),
-                    )
-                  : SizedBox(),
-            ),
-            buttonPressed ? inputImage : SizedBox(),
+            refereshImage ? GetterInputImage() : SizedBox(),
+            buttonPressed ? SizedBox() : castButton,
           ],
         ),
       ),

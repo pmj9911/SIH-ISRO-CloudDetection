@@ -1,28 +1,24 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
+import 'package:flutter/material.dart';
+
 import 'input_image_screen.dart';
 
 class CloudPredict {
-  final String timeSlot;
-  final String direction;
-  final String speed;
-  final String fileName;
-  CloudPredict({this.timeSlot, this.direction, this.speed, this.fileName});
+  final String inputFileName;
+  CloudPredict({this.inputFileName});
 
   factory CloudPredict.fromJson(Map<String, dynamic> json) {
     return CloudPredict(
-      timeSlot: json['time_slot'],
-      direction: json['direction'],
-      speed: json['speed'],
-      fileName: json['output_fileName'],
+      inputFileName: json['input_fileName'],
     );
   }
 }
 
-Future<CloudPredict> getCloudPredict() async {
+Future<CloudPredict> getInputImageFileName() async {
   String url = 'https://c4fc68eb.ngrok.io/predictCloud';
   final response = await http.get(url, headers: {"Accept": "application/json"});
 
@@ -34,20 +30,18 @@ Future<CloudPredict> getCloudPredict() async {
   }
 }
 
-class CloudPrediction extends StatefulWidget {
+class GetterInputImage extends StatefulWidget {
   @override
-  CloudPredictionState createState() => CloudPredictionState();
+  _GetterInputImageState createState() => _GetterInputImageState();
 }
 
-class CloudPredictionState extends State<CloudPrediction> {
+class _GetterInputImageState extends State<GetterInputImage> {
   @override
   Widget build(BuildContext context) {
-    DateTime now = DateTime.now();
-    String formattedDate = DateFormat('kk:mm:ss').format(now);
-    print(formattedDate);
+    
     return FutureBuilder<CloudPredict>(
       future:
-          getCloudPredict(), //sets the getCloudPredict method as the expected Future
+          getInputImageFileName(), //sets the getInputImageFileName method as the expected Future
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           //checks if the response returns valid data
@@ -55,59 +49,23 @@ class CloudPredictionState extends State<CloudPrediction> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      'Time Slot : ',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(snapshot.data.timeSlot),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      'Direction : ',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(snapshot.data.direction),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      'Speed : ',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(snapshot.data.speed),
-                  ],
-                ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(2.0),
                   child: Center(
                     child: Text(
-                      "Output Image",
+                      "Input Image",
                       style: TextStyle(
                         fontSize: 24,
                       ),
                     ),
                   ),
                 ),
-                InputImageScreen(snapshot.data.fileName, 300),
+                InputImageScreen("BW/${snapshot.data.inputFileName}", 300),
               ],
             ),
             // mainAxisAlignment: MainAxisAlignment.center,
             width: double.infinity,
-            height: 460,
+            height: 350,
             // margin: const EdgeInsets.all(15.0),
             // padding: const EdgeInsets.all(3.0),
             decoration: BoxDecoration(
@@ -144,3 +102,5 @@ class CloudPredictionState extends State<CloudPrediction> {
     );
   }
 }
+
+//"InputImage1.jpeg", widget.heightImg);

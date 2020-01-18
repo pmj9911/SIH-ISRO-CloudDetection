@@ -34,7 +34,7 @@ class _MyHomePageState extends State<MyHomePage> {
     _pages = [
       {
         'page': CloudPredictionScreen(),
-        'title': 'Cloud Detection',
+        'title': 'Cloud Prediction',
       },
       {
         'page': CloudDetails(),
@@ -69,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.info),
-            title: Text("Detection"),
+            title: Text("Prediction"),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.details),

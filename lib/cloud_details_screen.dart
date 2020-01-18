@@ -3,8 +3,9 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'cloud_details_widget.dart';
-import 'input_image_screen.dart';
+import 'getter_input_image.dart';
 
 class PointDetails {
   final String posx;
@@ -58,7 +59,7 @@ String postToJson(PointCoordiantes pointCoordiantes) {
 Future<http.Response> sendCords(PointCoordiantes pointCoordiantes) async {
   print('@@@@@@@@@@ ${postToJson(pointCoordiantes)}');
   final response = await http.post(
-    'http://fb4950f7.ngrok.io/detailsCloud',
+    'http://c4fc68eb.ngrok.io/detailsCloud',
     headers: {
       HttpHeaders.contentTypeHeader: 'application/json',
     },
@@ -112,6 +113,7 @@ class _CloudDetailsState extends State<CloudDetails> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       body: Column(
         children: <Widget>[
@@ -120,12 +122,12 @@ class _CloudDetailsState extends State<CloudDetails> {
               GestureDetector(
                 onTapDown: (TapDownDetails details) =>
                     onTapDown(context, details),
-                child: InputImageScreen("cloud1.jpg", 300),
+                child: GetterInputImage(),
               ),
             ],
           ),
           Container(
-            height: 330,
+            height: 288,
             // width: double.infinity,
             child: overlayActive
                 ? PointCloudDetails(postDets)
