@@ -19,7 +19,7 @@ class CloudPredict {
 }
 
 Future<CloudPredict> getInputImageFileName() async {
-  String url = 'https://c4fc68eb.ngrok.io/predictCloud';
+  String url = 'https://3d6978cf120c.ngrok.io/predictCloud';
   final response = await http.get(url, headers: {"Accept": "application/json"});
 
   if (response.statusCode == 200) {

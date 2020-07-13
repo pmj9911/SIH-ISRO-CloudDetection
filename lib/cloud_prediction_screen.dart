@@ -16,13 +16,13 @@ class _CloudPredictionScreenState extends State<CloudPredictionScreen> {
   bool buttonPressed = false;
   bool refereshImage = true;
   Timer _timer;
-  // _CloudPredictionScreenState() {
-  //   _timer = new Timer(const Duration(milliseconds: 1000), () {
-  //     setState(() {
-  //       buttonPressed = false;
-  //     });
-  //   });
-  // }
+  _CloudPredictionScreenState() {
+    _timer = new Timer(const Duration(milliseconds: 1000), () {
+      setState(() {
+        buttonPressed = false;
+      });
+    });
+  }
   void addValue() {
     setState(() {
       buttonPressed = false;

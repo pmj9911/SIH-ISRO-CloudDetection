@@ -41,7 +41,7 @@ import 'cloud_details_screen.dart';
 // }
 
 // Future<PointDetails> getPointDetails() async {
-//   String url = 'https://c4fc68eb.ngrok.io/detailsCloud';
+//   String url = 'https://3d6978cf120c.ngrok.io/detailsCloud';
 //   final response = await http.get(url, headers: {"Accept": "application/json"});
 
 //   if (response.statusCode == 200) {

@@ -59,7 +59,7 @@ String postToJson(PointCoordiantes pointCoordiantes) {
 Future<http.Response> sendCords(PointCoordiantes pointCoordiantes) async {
   print('@@@@@@@@@@ ${postToJson(pointCoordiantes)}');
   final response = await http.post(
-    'http://c4fc68eb.ngrok.io/detailsCloud',
+    'https://3d6978cf120c.ngrok.io/detailsCloud',
     headers: {
       HttpHeaders.contentTypeHeader: 'application/json',
     },
