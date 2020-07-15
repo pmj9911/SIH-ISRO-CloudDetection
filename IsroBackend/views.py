@@ -14,7 +14,6 @@ from .models import ImageFileName,ImageMaskDetails,ImagePreds
 from django.forms.models import model_to_dict
 class CloudDetails(APIView):
     parser_classes = (JSONParser,)
-    
     '''
     Point (int,int)
     TIR1 count double
