@@ -5,20 +5,16 @@ class ImageFileName(models.Model):
 
 class ImageMaskDetails(models.Model):
 	name = models.ForeignKey(ImageFileName,default=None,on_delete=models.PROTECT)
-	label = models.IntegerField(null=True)
-	avg_x = models.FloatField(null = True)
-	avg_y = models.FloatField(null = True)
-	mass = models.IntegerField(null=True)
-	major_minor = models.FloatField(null = True)
+	maskNumber = models.FloatField(null=True)
+	algorithm = models.CharField(null=True,max_length=100,default=None,)
 	com_x = models.FloatField(null = True)
 	com_y =   models.FloatField(null = True)
 
 	def __str__(self):
-			return str(self.label) +"\t" + str(self.avg_x) + "\t" + str(self.avg_y)
+			return str(self.name) +"\t" + str(self.com_x) + "\t" + str(self.com_y)
 
 class ImagePreds(models.Model):
-	# pix_x = models.FloatField(null = True)
-	pix_y = models.FloatField(null = True)
+	maskNumber = models.ForeignKey(ImageMaskDetails,default=None,on_delete=models.PROTECT)
 	lat = models.FloatField(null = True)
 	lon = models.FloatField(null = True)
 	top_temp = models.FloatField(null = True)

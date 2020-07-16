@@ -1,3 +1,4 @@
+import os
 from mrcnn.config import Config
 from mrcnn import model as modellib
 from mrcnn import visualize
@@ -7,7 +8,6 @@ import argparse
 import imutils
 import random
 import cv2
-import os
 import matplotlib.pyplot as plt
 from collections import defaultdict
 
@@ -20,7 +20,6 @@ ap.add_argument("-l", "--labels", required=True,
 ap.add_argument("-i", "--image", required=True,
 	help="path to input image to apply Mask R-CNN to")
 args = vars(ap.parse_args())
-
 
 CLASS_NAMES = open(args["labels"]).read().strip().split("\n")
 
@@ -76,20 +75,24 @@ for i in range(0, len(r["scores"])):
 	# print("hey")
 
 com = defaultdict(list)
+step1Directory = "BackgroundJobs/Step1Mask/"
+f = open(step1Directory + "step1MaskOutputs.txt","w")
 for i in range(r['rois'].shape[0]):
 	l = (r['rois'][i].tolist())
 	x = (l[1]+l[3])/2
 	y = (l[0]+l[2])/2
+	f.write(str(i+1)+" " +str(x)+" "+str(y) +"\n")
 	com[i].append(x)
 	com[i].append(y)
+f.close()
 print(r['rois'])
 print(r['masks'])
-print(com)
+print("--------------------------------------------------",com)
 
 
 f = open("BackgroundJobs/Step1Mask/currentImage.txt","r")
 i = f.read()
-i = int(i) -1	 	
+i = int(i) 	
 print(i)
 f.close()
 plt.imshow(image, cmap = 'gray', interpolation = 'bicubic')
