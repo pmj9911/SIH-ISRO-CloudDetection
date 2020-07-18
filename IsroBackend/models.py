@@ -9,12 +9,15 @@ class ImageMaskDetails(models.Model):
 	algorithm = models.CharField(null=True,max_length=100,default=None,)
 	com_x = models.FloatField(null = True)
 	com_y =   models.FloatField(null = True)
+	timeTakenCPU = models.FloatField(null=True)
+	timeTakenHuman = models.FloatField(null=True)
 
 	def __str__(self):
-			return str(self.name) +"\t" + str(self.com_x) + "\t" + str(self.com_y)
+			return str(self.name) +"\t" + str(self.algorithm)
 
-class ImagePreds(models.Model):
-	maskNumber = models.ForeignKey(ImageMaskDetails,default=None,on_delete=models.PROTECT)
+class ImageMaskPreds(models.Model):
+	maskKey = models.ForeignKey(ImageMaskDetails,default=None,on_delete=models.PROTECT)
+	maskNumber = models.FloatField(null=True)
 	lat = models.FloatField(null = True)
 	lon = models.FloatField(null = True)
 	top_temp = models.FloatField(null = True)

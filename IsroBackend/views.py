@@ -10,7 +10,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 import json
 import traceback
 from . import cloudDetection , tifToImageConvert
-from .models import ImageFileName,ImageMaskDetails,ImagePreds
+from .models import ImageFileName,ImageMaskDetails,ImageMaskPreds
 from django.forms.models import model_to_dict
 class CloudDetails(APIView):
     parser_classes = (JSONParser,)
@@ -39,9 +39,9 @@ class CloudDetails(APIView):
         posy = l['posy']
 
         if int(posy) < 150 :
-            pred = ImagePreds.objects.all().filter(pix_y=150)[0]
+            pred = ImageMaskPreds.objects.all().filter(pix_y=150)[0]
         else:
-            pred = ImagePreds.objects.all().filter(pix_y=250)[0]
+            pred = ImageMaskPreds.objects.all().filter(pix_y=250)[0]
         pred = model_to_dict(pred)
         print(pred)
         print(type(pred))

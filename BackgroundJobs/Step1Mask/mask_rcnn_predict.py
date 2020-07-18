@@ -10,7 +10,7 @@ import random
 import cv2
 import matplotlib.pyplot as plt
 from collections import defaultdict
-
+from Step2Features.step2 import classify
 
 ap = argparse.ArgumentParser()
 ap.add_argument("-w", "--weights", required=True,
@@ -18,6 +18,8 @@ ap.add_argument("-w", "--weights", required=True,
 ap.add_argument("-l", "--labels", required=True,
 	help="path to class labels file")
 ap.add_argument("-i", "--image", required=True,
+	help="path to input image to apply Mask R-CNN to")
+ap.add_argument("-ti", "--tifName", required=True,
 	help="path to input image to apply Mask R-CNN to")
 args = vars(ap.parse_args())
 
@@ -50,11 +52,15 @@ image = imutils.resize(image, width=512)
 print("[INFO] making predictions with Mask R-CNN...")
 r = model.detect([image], verbose=1)[0]
 
-
+cloud_coordinates = {}
 for i in range(0, r["rois"].shape[0]):
 	classID = r["class_ids"][i]
 	mask = r["masks"][:, :, i]
 	color = COLORS[classID][::-1]
+	coordinates = np.where(mask == True)
+	x = coordinates[1]
+	y = coordinates[0]
+	cloud_coordinates[str(i)] = {'x':x,'y':y}
 	image = visualize.apply_mask(image, mask, color, alpha=0.5)
 	# print(image)
 
@@ -77,6 +83,9 @@ for i in range(0, len(r["scores"])):
 com = defaultdict(list)
 step1Directory = "BackgroundJobs/Step1Mask/"
 f = open(step1Directory + "step1MaskOutputs.txt","w")
+step2Directory = "BackgroundJobs/Step1Mask/Step2Features/"
+temp = open(step2Directory + "step2MaskOutputs.txt","w+")
+temp.close    
 for i in range(r['rois'].shape[0]):
 	l = (r['rois'][i].tolist())
 	x = (l[1]+l[3])/2
@@ -84,6 +93,7 @@ for i in range(r['rois'].shape[0]):
 	f.write(str(i+1)+" " +str(x)+" "+str(y) +"\n")
 	com[i].append(x)
 	com[i].append(y)
+	classify(args["tifName"],cloud_coordinates[str(i)]['x'],cloud_coordinates[str(i)]['y'])
 f.close()
 print(r['rois'])
 print(r['masks'])
@@ -99,4 +109,3 @@ plt.imshow(image, cmap = 'gray', interpolation = 'bicubic')
 plt.xticks([]), plt.yticks([])  # to hide tick values on X and Y axis
 plt.savefig("BackgroundJobs/Step1Mask/step1ImageOutput/satellite"+str(i)+".jpg")
 print("Mask Image saved to :- BackgroundJobs/Step1Mask/step1ImageOutput/satellite"+str(i)+".jpg")
-# plt.show()
