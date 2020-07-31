@@ -8,6 +8,7 @@ def classify(tifPath, x, y):
     img = sat_data.read(1)
     c, h, l, m = 0, 0, 0, 0
     print(len(x),len(y))
+    return
     BR=pd.read_excel('BackgroundJobs/Step1Mask/Step2Features/TIR.xlsx')
     for i in range(len(x)):
         print(i)

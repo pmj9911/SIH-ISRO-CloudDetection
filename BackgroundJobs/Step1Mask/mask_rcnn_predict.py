@@ -85,7 +85,7 @@ step1Directory = "BackgroundJobs/Step1Mask/"
 f = open(step1Directory + "step1MaskOutputs.txt","w")
 step2Directory = "BackgroundJobs/Step1Mask/Step2Features/"
 temp = open(step2Directory + "step2MaskOutputs.txt","w+")
-temp.close    
+temp.close()    
 for i in range(r['rois'].shape[0]):
 	l = (r['rois'][i].tolist())
 	x = (l[1]+l[3])/2

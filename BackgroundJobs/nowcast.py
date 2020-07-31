@@ -93,6 +93,11 @@ def tif_to_png(image_folder, timestamp):
     #cv2.imwrite(output_folder + timestamp + '.png', image)
     return image
 
+def nowCasting():
+	#TODO. add both the methods of nowcasting, can accept params such as image name, step directory etc etc
+	# https://medium.com/@kevin.michael.horan/scheduling-tasks-in-django-with-the-advanced-python-scheduler-663f17e868e6
+	pass
 def updateDetails():
 	loadImage()
+	nowCasting()
 	print("details will be updated here")
