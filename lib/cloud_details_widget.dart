@@ -41,7 +41,7 @@ import 'cloud_details_screen.dart';
 // }
 
 // Future<PointDetails> getPointDetails() async {
-//   String url = 'https://3d6978cf120c.ngrok.io/detailsCloud';
+//   String url = 'https://2c01f049e1cc.ngrok.io/detailsCloud';
 //   final response = await http.get(url, headers: {"Accept": "application/json"});
 
 //   if (response.statusCode == 200) {
@@ -65,7 +65,7 @@ class PointCloudDetails extends StatefulWidget {
 class _PointCloudDetailsState extends State<PointCloudDetails> {
   Widget detailResult(String infoText, String value) {
     return Padding(
-      padding: const EdgeInsets.all(30.0),
+      padding: const EdgeInsets.all(10.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -87,11 +87,11 @@ class _PointCloudDetailsState extends State<PointCloudDetails> {
             children: <Widget>[
               detailResult('Position : ',
                   '${widget.allDetails.posx.toString()} , ${widget.allDetails.posy}'),
-              detailResult('TIR1 Count : ', widget.allDetails.tir1Count.toString()),
-              detailResult('Cloudy : ', widget.allDetails.cloudy.toString()),
-              detailResult('Type : ', widget.allDetails.type.toString()),
-              detailResult('Top Temp : ', widget.allDetails.topTemp.toString()),
-              detailResult('Height : ', widget.allDetails.height.toString()),
+              detailResult('Cloud : ', widget.allDetails.cloud.toString()),
+              detailResult('type : ', widget.allDetails.type.toString()),
+              detailResult('CoM : ', widget.allDetails.coM.toString()),
+              detailResult('Predicted_CoM : ', widget.allDetails.predicted_CoM.toString()),
+              detailResult('Error : ', widget.allDetails.error.toString()),
             ],
   
             // mainAxisAlignment: MainAxisAlignment.center,

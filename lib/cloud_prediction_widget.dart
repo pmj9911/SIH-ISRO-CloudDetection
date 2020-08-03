@@ -23,7 +23,7 @@ class CloudPredict {
 }
 
 Future<CloudPredict> getCloudPredict() async {
-  String url = 'https://3d6978cf120c.ngrok.io/predictCloud';
+  String url = 'https://eed6cd576529.ngrok.io/predictCloud';
   final response = await http.get(url, headers: {"Accept": "application/json"});
 
   if (response.statusCode == 200) {
@@ -59,7 +59,7 @@ class CloudPredictionState extends State<CloudPrediction> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                      'Time Slot : ',
+                      'Day : ',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
@@ -71,7 +71,7 @@ class CloudPredictionState extends State<CloudPrediction> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                      'Direction : ',
+                      'Input Images of : ',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
@@ -83,7 +83,7 @@ class CloudPredictionState extends State<CloudPrediction> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                      'Speed : ',
+                      'Predicted Images for : ',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
@@ -110,12 +110,12 @@ class CloudPredictionState extends State<CloudPrediction> {
             height: 460,
             // margin: const EdgeInsets.all(15.0),
             // padding: const EdgeInsets.all(3.0),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: Colors.red,
-                width: 3.5,
-              ),
-            ),
+            // decoration: BoxDecoration(
+            //   border: Border.all(
+            //     color: Colors.red,
+            //     width: 3.5,
+            //   ),
+            // ),
           );
         } else if (snapshot.hasError) {
           //checks if the response throws an error
@@ -133,12 +133,12 @@ class CloudPredictionState extends State<CloudPrediction> {
           height: 350,
           // margin: const EdgeInsets.all(15.0),
           // padding: const EdgeInsets.all(3.0),
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: Colors.red,
-              width: 3.5,
-            ),
-          ),
+          // decoration: BoxDecoration(
+          //   border: Border.all(
+          //     color: Colors.red,
+          //     width: 3.5,
+          //   ),
+          // ),
         );
       },
     );

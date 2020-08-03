@@ -32,7 +32,7 @@ class _CloudPredictionScreenState extends State<CloudPredictionScreen> {
   @override
   void initState() {
     super.initState();
-    _timer = Timer.periodic(Duration(seconds: 180  ), (Timer t) => addValue());
+    _timer = Timer.periodic(Duration(seconds: 1800  ), (Timer t) => addValue());
   }
 
   @override
@@ -46,12 +46,12 @@ class _CloudPredictionScreenState extends State<CloudPredictionScreen> {
     Widget castButton = Container(
       height: 270,
       width: double.infinity,
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: Colors.green,
-          width: 2.5,
-        ),
-      ),
+      // decoration: BoxDecoration(
+      //   border: Border.all(
+      //     color: Colors.green,
+      //     width: 2.5,
+      //   ),
+      // ),
       // padding: EdgeInsets.only(top: 75),
       child: FlatButton.icon(
         label: Text("NowCast"),

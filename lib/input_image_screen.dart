@@ -16,7 +16,7 @@ class _InputImageScreenState extends State<InputImageScreen> {
   Widget build(BuildContext context) {
     return Container(
       child: new Image.network(
-        'https://3d6978cf120c.ngrok.io/media/images/' + widget.pathToImage,
+        'https://eed6cd576529.ngrok.io/media/images/' + widget.pathToImage,
         fit: BoxFit.fill,
       ),
       // Image.asset(
@@ -27,12 +27,12 @@ class _InputImageScreenState extends State<InputImageScreen> {
       height: widget.heightImg,
       // margin: const EdgeInsets.all(15.0),
       // padding: const EdgeInsets.all(3.0),
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: Colors.green,
-          width: 1,
-        ),
-      ),
+      // decoration: BoxDecoration(
+      //   border: Border.all(
+      //     color: Colors.green,
+      //     width: 1,
+      //   ),
+      // ),
     );
   }
 }

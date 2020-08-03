@@ -19,7 +19,7 @@ class CloudPredict {
 }
 
 Future<CloudPredict> getInputImageFileName() async {
-  String url = 'https://3d6978cf120c.ngrok.io/predictCloud';
+  String url = 'https://eed6cd576529.ngrok.io/predictCloud';
   final response = await http.get(url, headers: {"Accept": "application/json"});
 
   if (response.statusCode == 200) {
@@ -38,7 +38,6 @@ class GetterInputImage extends StatefulWidget {
 class _GetterInputImageState extends State<GetterInputImage> {
   @override
   Widget build(BuildContext context) {
-    
     return FutureBuilder<CloudPredict>(
       future:
           getInputImageFileName(), //sets the getInputImageFileName method as the expected Future
@@ -60,7 +59,18 @@ class _GetterInputImageState extends State<GetterInputImage> {
                     ),
                   ),
                 ),
-                InputImageScreen("BW/${snapshot.data.inputFileName}", 300),
+                Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: Center(
+                    child: Text(
+                      "Time: 4:00 AM",
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ),
+                InputImageScreen("${snapshot.data.inputFileName}", 285),
               ],
             ),
             // mainAxisAlignment: MainAxisAlignment.center,
@@ -68,12 +78,12 @@ class _GetterInputImageState extends State<GetterInputImage> {
             height: 350,
             // margin: const EdgeInsets.all(15.0),
             // padding: const EdgeInsets.all(3.0),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: Colors.red,
-                width: 3.5,
-              ),
-            ),
+            // decoration: BoxDecoration(
+            //   border: Border.all(
+            //     color: Colors.red,
+            //     width: 3.5,
+            //   ),
+            // ),
           );
         } else if (snapshot.hasError) {
           //checks if the response throws an error

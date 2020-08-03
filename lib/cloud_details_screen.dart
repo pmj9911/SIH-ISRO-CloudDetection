@@ -15,15 +15,23 @@ class PointDetails {
   final String type;
   final String topTemp;
   final String height;
+final String cloud;
+final String coM;
+final String predicted_CoM;
+final String error;
 
   PointDetails({
     this.posx,
     this.posy,
     this.tir1Count,
+    this.cloud,
     this.cloudy,
+    this.coM,
     this.type,
     this.topTemp,
+    this.predicted_CoM,
     this.height,
+    this.error,
   });
 
   factory PointDetails.fromJson(Map<String, dynamic> json) {
@@ -32,9 +40,13 @@ class PointDetails {
       posy: json['posy'],
       tir1Count: json['tir1Count'],
       cloudy: json['cloudy'],
-      type: json['type'],
       topTemp: json['topTemp'],
       height: json['height'],
+      cloud : json['Cloud'],
+      coM : json['CoM'],
+      type : json['type'],
+      predicted_CoM : json['Predicted_CoM'],
+      error : json['Error'],
     );
   }
 }
@@ -59,7 +71,7 @@ String postToJson(PointCoordiantes pointCoordiantes) {
 Future<http.Response> sendCords(PointCoordiantes pointCoordiantes) async {
   print('@@@@@@@@@@ ${postToJson(pointCoordiantes)}');
   final response = await http.post(
-    'https://3d6978cf120c.ngrok.io/detailsCloud',
+    'https://eed6cd576529.ngrok.io/detailsCloud',
     headers: {
       HttpHeaders.contentTypeHeader: 'application/json',
     },

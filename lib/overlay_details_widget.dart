@@ -36,13 +36,13 @@ class _OverlayDetailsState extends State<OverlayDetails> {
         // margin: const EdgeInsets.all(15.0),
         // padding: const EdgeInsets.all(3.0),
 
-        decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.7),
-          border: Border.all(
-            color: Colors.green,
-            width: 2.5,
-          ),
-        ),
+        // decoration: BoxDecoration(
+        //   color: Colors.white.withOpacity(0.7),
+        //   border: Border.all(
+        //     color: Colors.green,
+        //     width: 2.5,
+        //   ),
+        // ),
       ),
       // ),
       //   Positioned(
