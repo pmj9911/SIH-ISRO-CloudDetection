@@ -3,4 +3,4 @@ class IsroConfig(AppConfig):
     name = 'IsroBackend'
     def ready(self):
         from BackgroundJobs import updater
-        updater.start()
+        # updater.start()

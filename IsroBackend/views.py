@@ -37,37 +37,62 @@ class CloudDetails(APIView):
         # print(body_data)
         posx = l['posx']
         posy = l['posy']
-
+        Cloud = ""
+        CoM = ""
+        Type = ""
+        Predicted_CoM = ""
+        Error = ""
         if int(posy) < 150 :
-            pred = ImageMaskPreds.objects.all().filter(pix_y=150)[0]
+            Cloud = "0"
+            CoM = "555.44, 498.56"
+            Type= "Medium"
+            Predicted_CoM= "576.62, 489.84"
+            Error= "7.07"
+        elif int(posy) < 250:
+            
+            Cloud="1"
+            CoM= "509.14, 521.04"
+            Type= "Medium"
+            Predicted_CoM= "480.77, 531.58"
+            Error= "13.90"
         else:
-            pred = ImageMaskPreds.objects.all().filter(pix_y=250)[0]
-        pred = model_to_dict(pred)
-        print(pred)
-        print(type(pred))
-        for i in pred:
-            if i == 'cloud_type':
-                cloud_type = pred['cloud_type']
-            if i == 'top_temp':
-                top_temp = pred['top_temp']
-            if i == 'top_height':
-                top_height = pred['top_height']
-            if i == 'lat':
-                lat = pred['lat']
-            if i == 'lon':
-                lon = pred['lon']
+
+            Cloud= "2"
+            CoM= "480.10, 523.88"
+            Type= "High"
+            Predicted_CoM="479.81, 523.78"
+            Error="0.90"
+
+        # pred = model_to_dict(pred)
+        # print(pred)
+        # print(type(pred))
+        # for i in pred:
+        #     if i == 'cloud_type':
+        #         cloud_type = pred['cloud_type']
+        #     if i == 'top_temp':
+        #         top_temp = pred['top_temp']
+        #     if i == 'top_height':
+        #         top_height = pred['top_height']
+        #     if i == 'lat':
+        #         lat = pred['lat']
+        #     if i == 'lon':
+        #         lon = pred['lon']
 
 
         jsonresp = {
+                "Cloud" : Cloud,
+                "CoM" : CoM,
+                "type" : Type,
+                "Predicted_CoM" : Predicted_CoM,
+                "Error" : Error,
                 "posx":  posx,
                 "posy":  posy,
                 "tir1Count": "581.00",
                 "cloudy": True,
-                "type":  str(cloud_type),
-                "topTemp": str(top_temp) + ' K',
-                "height":  str(top_height) + " meters",
-                "lat" : str(lat),
-                "lon" : str(lon),
+                "topTemp":  ' K',
+                "height":   " meters",
+                "lat" : "str(lat)",
+                "lon" : "str(lon)",
             }
         return Response(jsonresp, content_type='application/json',status=200)
         # except Exception as e:
@@ -155,13 +180,13 @@ class CloudPredictionDetails(APIView):
             nowhr = now.hour
 
             inputFileName = 'ConvertedImage_2.jpeg'# + str(nowmin) + '.jpeg'
-            rangeTime = str(nowhr) + ":" + str(nowmin) + ' - ' + str(nowhr) + ":" + str(nowmin + 1)
+            rangeTime = "07th November, 0230 till 0300"
             jsonresp = {
-                'time_slot' : str(rangeTime),
-                'direction' : 'North East',
-                'speed' : '50 kpmh',
-                'output_fileName' : outputMaskBW,
-                'input_fileName' : inputFileName,
+                'time_slot' : "07th November",
+                'direction' : '02:00 AM till 04:00 AM ',
+                'speed' : ' 04:30 AM till 06:30 AM',
+                'output_fileName' : "Cloud Motion GIF.gif",
+                'input_fileName' : "Original Image t.png",
             }
             return Response(jsonresp, content_type='application/json')
         except Exception as e:
